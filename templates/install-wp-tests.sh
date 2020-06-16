@@ -165,5 +165,54 @@ install_test_suite() {
 
 }
 
-install_test_suite
+recreate_db() {
+    if [ echo $1 | grep -Eqi '^(y|yes)$' ]
+    then
+        mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
+        create_db
+        echo "Recreated the database ($DB_NAME)."
+    else
+        echo "Leaving the existing database ($DB_NAME) in place."
+    fi
+}
+
+create_db() {
+    mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
+}
+
+install_db() {
+
+    if [ ${SKIP_DB_CREATE} = "true" ]; then
+        return 0
+    fi
+
+    # parse DB_HOST for port or socket references
+    PARTS=(${DB_HOST//\:/ })
+    DB_HOSTNAME=${PARTS[0]};
+    DB_SOCK_OR_PORT=${PARTS[1]};
+    EXTRA=""
+
+    if ! [ -z $DB_HOSTNAME ] ; then
+        if [ $(echo $DB_SOCK_OR_PORT | grep -e '^[0-9]\{1,\}$') ]; then
+            EXTRA=" --host=$DB_HOSTNAME --port=$DB_SOCK_OR_PORT --protocol=tcp"
+        elif ! [ -z $DB_SOCK_OR_PORT ] ; then
+            EXTRA=" --socket=$DB_SOCK_OR_PORT"
+        elif ! [ -z $DB_HOSTNAME ] ; then
+            EXTRA=" --host=$DB_HOSTNAME --protocol=tcp"
+        fi
+    fi
+
+    # create database
+    if [ $(mysql --user="$DB_USER" --password="$DB_PASS" --execute='show databases;' | grep ^$DB_NAME$) ]
+    then
+        echo "Reinstalling will delete the existing test database ($DB_NAME)"
+        read -p 'Are you sure you want to proceed? [y/N]: ' DELETE_EXISTING_DB
+        recreate_db $DELETE_EXISTING_DB
+    else
+        create_db
+    fi
+}
+
 install_wp
+install_test_suite
+install_db
