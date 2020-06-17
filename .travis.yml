@@ -1,5 +1,6 @@
-os: linux
-dist: xenial
+# os: linux
+# dist: xenial
+os: osx
 
 language: php
 php: 7.4
