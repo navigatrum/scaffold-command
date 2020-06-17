@@ -42,7 +42,7 @@ install_wp() {
 
     mkdir -p $WP_CORE_DIR
 
-    echo "in $WP_CORE_DIR..."
+    # echo "in $WP_CORE_DIR..."
 
     if [ "$WP_VERSION" = 'nightly' ] || [ "$WP_VERSION" = 'trunk' ]; then
         mkdir -p $TMPDIR/wordpress-nightly
@@ -120,7 +120,7 @@ install_test_suite() {
         exit 1
     fi
 
-    echo "v. $WP_TESTS_TAG.";
+    # echo "v. $WP_TESTS_TAG.";
 
     # set up testing suite if it doesn't yet exist
     if [ ! -d $WP_TESTS_DIR ]; then
