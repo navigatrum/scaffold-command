@@ -29,13 +29,13 @@ download() {
 }
 
 install_wp() {
-    echo "Downloading WordPress for Test Suite: "
+    # echo "Downloading WordPress for Test Suite: "
 
     if [ -d $WP_CORE_DIR ]; then
         if  [ "$KIP_REINSTALL" = "true" ]; then
             rm -rd $WP_CORE_DIR
         else
-            echo "skipping"
+            # echo "skipping"
             return;
         fi
     fi
@@ -46,7 +46,7 @@ install_wp() {
 
     if [ "$WP_VERSION" = 'nightly' ] || [ "$WP_VERSION" = 'trunk' ]; then
         mkdir -p $TMPDIR/wordpress-nightly
-        echo "Downloading WP $WP_VERSION from nightly builds..."
+        # echo "Downloading WP $WP_VERSION from nightly builds..."
         download https://wordpress.org/nightly-builds/wordpress-latest.zip  $TMPDIR/wordpress-nightly/wordpress-nightly.zip
         unzip -q $TMPDIR/wordpress-nightly/wordpress-nightly.zip -d $TMPDIR/wordpress-nightly/
         mv $TMPDIR/wordpress-nightly/wordpress/* $WP_CORE_DIR
@@ -80,14 +80,14 @@ install_wp() {
 }
 
 install_test_suite() {
-        echo "Installing Wordpress Test Suite: ";
+        # echo "Installing Wordpress Test Suite: ";
 
     if [ -d $WP_TESTS_DIR ] && [ "$SKIP_REINSTALL" = true ]; then
           rm -rd $WP_TESTS_DIR;
     fi
 
     if [ -d $WP_TESTS_DIR ] && [ -f wp-tests-config.php ]; then
-        echo "skipping."
+        # echo "skipping."
         return;
     fi
 
@@ -126,7 +126,7 @@ install_test_suite() {
     if [ ! -d $WP_TESTS_DIR ]; then
 
         # set up testing suite
-        echo "Downloading WP Testsuite in $WP_TESTS_DIR..."
+        # echo "Downloading WP Testsuite in $WP_TESTS_DIR..."
         mkdir -p $WP_TESTS_DIR
         svn co --quiet --trust-server-cert --non-interactive https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/includes/ $WP_TESTS_DIR/includes
         svn co --quiet --trust-server-cert --non-interactive https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/data/ $WP_TESTS_DIR/data
@@ -134,7 +134,7 @@ install_test_suite() {
 
     if [ ! -f wp-tests-config.php ]; then
 
-        echo "Setting up config file...";
+        # echo "Setting up config file...";
         WP_TESTS_TAG=${WP_TESTS_TAG-wp_tests_tag}
         download https://develop.svn.wordpress.org/${WP_TESTS_TAG}/wp-tests-config-sample.php "$WP_TESTS_DIR"/wp-tests-config.php 
         # remove all forward slashes in the end
