@@ -28,6 +28,8 @@ download() {
     fi
 }
 
+set -ex
+
 install_wp() {
     # echo "Downloading WordPress for Test Suite: "
 
