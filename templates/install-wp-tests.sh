@@ -99,7 +99,7 @@ install_wp() {
 install_test_suite() {
 
     # portable in-place argument for both GNU sed and Mac OSX sed
-    if [[ $(uname -s) == 'Darwin' ]]; then
+    if [ $(uname -s) = 'Darwin' ]; then
         local ioption='-i.bak'
     else
         local ioption='-i'
@@ -128,16 +128,13 @@ install_test_suite() {
 }
 
 recreate_db() {
-    shopt -s nocasematch
-    if [[ $1 =~ ^(y|yes)$ ]]
-    then
+    if echo $1 | grep -Eqi '^(y|yes)$'; then
         mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
         create_db
         echo "Recreated the database ($DB_NAME)."
     else
         echo "Leaving the existing database ($DB_NAME) in place."
     fi
-    shopt -u nocasematch
 }
 
 create_db() {
