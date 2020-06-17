@@ -15,15 +15,6 @@ WP_VERSION=${5-${WP_VERSION-latest}}
 SKIP_DB_CREATE=${6-false}
 SKIP_REINSTALL=${7-true}
 
-echo $DB_HOST;
-exit 1;
-
-if [ -z "$DB_NAME" ] || [ -z "$DB_USER" ] || [ -z "$DB_PASS" ] || [ -z "$DB_HOST" ] || [ -z "$WP_VERSION" ]; then
-    echo "usage: $0 <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]"
-    exit 1
-fi;
-exit 1
-
 TMPDIR=${TMPDIR-/tmp}
 TMPDIR=$(echo $TMPDIR | sed -e "s/\/$//")
 WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress/}
