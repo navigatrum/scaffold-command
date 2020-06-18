@@ -125,8 +125,7 @@ install_test_suite() {
 }
 
 recreate_db() {
-	shopt -s nocasematch
-	if [[ $1 =~ ^(y|yes)$ ]]
+	if echo $1 | grep -Eqi '^(y|yes)$'; then
 	then
 		mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
 		create_db
@@ -134,7 +133,6 @@ recreate_db() {
 	else
 		echo "Leaving the existing database ($DB_NAME) in place."
 	fi
-	shopt -u nocasematch
 }
 
 create_db() {
