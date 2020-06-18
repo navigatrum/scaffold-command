@@ -60,7 +60,7 @@ install_wp() {
 
 	mkdir -p $WP_CORE_DIR
 
-	if [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
+	if [ $WP_VERSION = 'nightly' ] || [ $WP_VERSION = 'trunk' ]; then
 		mkdir -p $TMPDIR/wordpress-nightly
 		download https://wordpress.org/nightly-builds/wordpress-latest.zip  $TMPDIR/wordpress-nightly/wordpress-nightly.zip
 		unzip -q $TMPDIR/wordpress-nightly/wordpress-nightly.zip -d $TMPDIR/wordpress-nightly/
@@ -68,8 +68,8 @@ install_wp() {
 	else
 		if [ $WP_VERSION == 'latest' ]; then
 			local ARCHIVE_NAME='latest'
-		elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+ ]]; then
-			if [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0] ]]; then
+		elif echo "$WP_VERSION" | grep -Eq '[0-9]+\.[0-9]+'; then
+			if echo "$WP_VERSION" | grep -Eq '[0-9]+\.[0-9]+\.[0]'; then
 				# version x.x.0 means the first release of the major version, so strip off the .0 and download version x.x
 				LATEST_VERSION=${WP_VERSION%??}
 			else
@@ -79,7 +79,7 @@ install_wp() {
 				local VERSION_ESCAPED=`echo $WP_VERSION | sed 's/\./\\\\./g'`
 				LATEST_VERSION=$(grep -o '"version":"'$VERSION_ESCAPED'[^"]*' $TMPDIR/wp-latest.json | sed 's/"version":"//' | head -1)
 			fi
-			if [[ -z "$LATEST_VERSION" ]]; then
+			if [ -z "$LATEST_VERSION" ]; then
 				local ARCHIVE_NAME="wordpress-$WP_VERSION"
 			else
 				local ARCHIVE_NAME="wordpress-$LATEST_VERSION"
