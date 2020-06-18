@@ -66,7 +66,7 @@ install_wp() {
 		unzip -q $TMPDIR/wordpress-nightly/wordpress-nightly.zip -d $TMPDIR/wordpress-nightly/
 		mv $TMPDIR/wordpress-nightly/wordpress/* $WP_CORE_DIR
 	else
-		if [ $WP_VERSION == 'latest' ]; then
+		if [ $WP_VERSION = 'latest' ]; then
 			local ARCHIVE_NAME='latest'
 		elif echo "$WP_VERSION" | grep -Eq '[0-9]+\.[0-9]+'; then
 			if echo "$WP_VERSION" | grep -Eq '[0-9]+\.[0-9]+\.[0]'; then
