@@ -126,7 +126,7 @@ install_test_suite() {
 }
 
 recreate_db() {
-	if [ $(echo $1 | grep -Eqi '^(y|yes)$') ]; then
+	if [ $(echo "$1" | grep -Eqi '^(y|yes)$') ]; then
 		mysqladmin drop $DB_NAME -f --user="$DB_USER" --password="$DB_PASS"$EXTRA
 		create_db
 		echo "Recreated the database ($DB_NAME)."
