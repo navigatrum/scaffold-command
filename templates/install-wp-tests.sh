@@ -145,9 +145,9 @@ install_db() {
 	fi
 
 	# parse DB_HOST for port or socket references
-    local PARTS= echo "$DB_HOST" | grep -Eq '^.*\:.*$'
-	local DB_HOSTNAME= echo "$PARTS" | sed -E 's/^(.*)\:(.*)$/\1/'
-	local DB_SOCK_OR_PORT= echo "$PARTS" | sed -E 's/^(.*)\:(.*)$/\2/'
+    local PARTS= $(echo "$DB_HOST" | grep -Eq '^.*\:.*$')
+	local DB_HOSTNAME= $(echo "$PARTS" | sed -E 's/^(.*)\:(.*)$/\1/')
+	local DB_SOCK_OR_PORT= $(echo "$PARTS" | sed -E 's/^(.*)\:(.*)$/\2/')
 	local EXTRA=""
 
 
